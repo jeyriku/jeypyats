@@ -1,21 +1,21 @@
 #!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python
 # -*- coding:utf-8 -*-
 ########################################################################################################################
-# This file is a part of Swisscom.com.
+# This file is a part of Netalps.fr
 #
 # Created: 26.01.2026
 # Author: Jeremie Rouzet
 #
-# Last Modified: 26.01.2026 14:05:49
+# Last Modified: 26.01.2026 14:15:14
 # Modified By: Jeremie Rouzet
 #
-# Copyright (c) 2026 Swisscom.com
+# Copyright (c) 2026 Netalps.fr
 ########################################################################################################################
 
 __author__ = ["Jeremie Rouzet"]
-__contact__ = 'jeremie.rouzet@swisscom.com'
-__copyright__ = 'Swisscom, 2026'
-__license__ = "Swisscom, Copyright 2026. All rights reserved."
+__contact__ = 'jeremie.rouzet@netalps.fr'
+__copyright__ = 'Netalps.fr, 2026'
+__license__ = "Netalps.fr, Copyright 2026. All rights reserved."
 
 '''
 Setup file for JeyPyats package
@@ -36,7 +36,7 @@ setup(
         # Add other dependencies as needed
     ],
     author='Jeremie Rouzet',
-    author_email='jeremie.rouzet@swisscom.com',
+    author_email='jeremie.rouzet@netalps.fr',
     description='JeyPyats: Automated testing framework for network equipment via NETCONF',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
