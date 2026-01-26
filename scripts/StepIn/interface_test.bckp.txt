@@ -1,0 +1,96 @@
+#!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python
+# -*- coding:utf-8 -*-
+########################################################################################################################
+#
+# File: interface_test.py
+# This file is a part of Swisscom.com
+#
+# Created: 2025/06/25 13:41:04
+# Author: Jeremie Rouzet
+#
+# Last Modified: 2025/06/25 13:41:04
+# Modified By: Jeremie Rouzet
+#
+# Copyright (c) 2025 Swisscom.com
+########################################################################################################################
+from pyats import aetest
+from netconf_connector import connect_netconf
+from xrd_interface_parser_oc import get_interface_status_oc
+from xrd_interface_parser_xr import get_interface_status_xr
+import logging
+from pyats.topology import loader
+import pprint
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
+
+
+class CommonSetup(aetest.CommonSetup):
+    @aetest.subsection
+    def connect_to_devices(self, testbed):
+        if isinstance(testbed, str):
+            testbed = loader.load(testbed)
+
+        self.parent.parameters["testbed"] = testbed
+        self.parent.parameters["connections"] = {}
+
+        for device_name, device in testbed.devices.items():
+            try:
+                host = str(device.connections["netconf"]["ip"])
+                port = int(device.connections["netconf"].get("port", 830))
+                username = testbed.credentials["default"]["username"]
+                tesbed_pwd = device.credentials.default.password.plaintext
+                password = tesbed_pwd
+                logger.info(f"Connecting to {host}:{port} as user '{username}' with password type {type(password)}")
+                logger.info(f"Connecting to {device_name} at {host}:{port}")
+                logger.info(f"Password repr: {repr(password)}")
+                conn = connect_netconf(host, port, username, password=password)
+                logger.debug(f"Using credentials for {device_name} (password hidden, type: {type(password)})")
+                if conn:
+                    self.parent.parameters["connections"][device_name] = conn
+                    logger.info(f"Successfully connected to {device_name}")
+                else:
+                    self.failed(f"Connection failed to {device_name}")
+            except Exception as e:
+                logger.error(f"Error during connection to {device_name}: {e}")
+                self.failed(f"Exception while connecting to {device_name}")
+
+
+class VerifyInterfaces(aetest.Testcase):
+    @aetest.test
+    def check_interfaces_oper_up(self, connections, parser_type="xr"):
+        testbed = self.parent.parameters["testbed"]
+        for device in testbed.devices:
+            logger.info(f"Tell me more about the target device {connections}")
+            device_conn = connections[device]
+            if parser_type == "xr":
+                interfaces = get_interface_status_xr(device_conn)
+            elif parser_type == "oc":
+                from xrd_interface_parser_oc import get_interface_status_oc
+
+                interfaces = get_interface_status_oc(device_conn)
+            else:
+                raise ValueError(f"Unknown parser_type: {parser_type}")
+            logger.info(f"Tell me more about the related interfaces: \n{pprint.pformat(interfaces, indent=4)}")
+            for intf in interfaces:
+                if parser_type == "xr":
+                    logger.info(f"{device} - {intf['name']} : {intf['state']}")
+                    assert intf["state"] == "im-state-up", f"Interface {intf['name']} on {device} is not up"
+                elif parser_type == "oc":
+                    from xrd_interface_parser_oc import get_interface_status_oc
+
+                    logger.info(f"{device} - {intf['name']} : {intf['oper-status']}")
+                    assert intf["state"] == "UP", f"Interface {intf['name']} on {device} is not up"
+                else:
+                    raise ValueError(f"Unknown parser_type: {parser_type}")
+
+
+class CommonCleanup(aetest.CommonCleanup):
+    @aetest.subsection
+    def disconnect(self, connections):
+        for conn in connections.values():
+            conn.close_session()
+
+
+if __name__ == "__main__":
+    aetest.main()

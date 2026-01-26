@@ -1,0 +1,264 @@
+*****************************************************************************
+*                                                                           *
+*                            show l2vpn                                     *
+*                                                                           *
+*****************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn 
+HA role     : Active
+ISSU role   : ISSU_ROLE_PRIMARY
+Process FSM : 
+---------------------------
+PW-Status: enabled
+PW-Grouping: disabled
+Logging PW: disabled
+Logging BD state changes: disabled
+Logging VFI state changes: disabled
+Logging NSR state changes: disabled
+Logging EVPN DF-Election: disabled
+TCN propagation: disabled
+PW OAM transmit time: 30s
+
+*****************************************************************************
+*                                                                           *
+*                            show l2vpn bridge-domain                       *
+*                                                                           *
+*****************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn bridge-domain 
+Legend: pp = Partially Programmed.
+Bridge group: BG_IB_MGMT, bridge-domain: BD_IB_MGMT_0001, id: 0, state: up, ShgId: 0, MSTi: 0
+  Aging: 300 s, MAC limit: 300, Action: limit, no-flood, Notification: syslog, trap
+  Filter MAC addresses: 0
+  ACs: 3 (3 up), VFIs: 0, PWs: 0 (0 up), PBBs: 0 (0 up), VNIs: 0 (0 up)
+  List of ACs:
+    BV4021, state: up, BVI MAC addresses: 1
+    BE2000.4021, state: up, Static MAC addresses: 0
+    BE2100.4021, state: up, Static MAC addresses: 0
+  List of Access PWs:
+  List of VFIs:
+  List of Access VFIs:
+
+*****************************************************************************
+*                                                                           *
+*             show l2vpn bridge-domain bd-name BD_IB_MGMT_0001              *
+*                                                                           *
+*****************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn bridge-domain bd-name BD_IB_MGMT_0001
+Legend: pp = Partially Programmed.
+Bridge group: BG_IB_MGMT, bridge-domain: BD_IB_MGMT_0001, id: 0, state: up, ShgId: 0, MSTi: 0
+  Aging: 300 s, MAC limit: 300, Action: limit, no-flood, Notification: syslog, trap
+  Filter MAC addresses: 0
+  ACs: 3 (3 up), VFIs: 0, PWs: 0 (0 up), PBBs: 0 (0 up), VNIs: 0 (0 up)
+  List of ACs:
+    BV4021, state: up, BVI MAC addresses: 1
+    BE2000.4021, state: up, Static MAC addresses: 0
+    BE2100.4021, state: up, Static MAC addresses: 0
+  List of Access PWs:
+  List of VFIs:
+  List of Access VFIs:
+
+******************************************************************************************
+*                                                                                        *
+* show l2vpn bridge-domain bd-name BD_IB_MGMT_0001 interface Bundle-Ether2000.4021       *
+*                                                                                        *
+******************************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn bridge-domain bd-name BD_IB_MGMT_0001 interface Bundle-Ether2000.4021          
+Legend: pp = Partially Programmed.
+Bridge group: BG_IB_MGMT, bridge-domain: BD_IB_MGMT_0001, id: 0, state: up, ShgId: 0, MSTi: 0
+  Aging: 300 s, MAC limit: 300, Action: limit, no-flood, Notification: syslog, trap
+  Filter MAC addresses: 0
+  ACs: 3 (3 up), VFIs: 0, PWs: 0 (0 up), PBBs: 0 (0 up), VNIs: 0 (0 up)
+  List of ACs:
+    BE2000.4021, state: up, Static MAC addresses: 0
+
+******************************************************************************************
+*                                                                                        *
+* show l2vpn bridge-domain bd-name BD_IB_MGMT_0001 interface Bundle-Ether2000.4021 brief *
+*                                                                                        *
+******************************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn bridge-domain bd-name BD_IB_MGMT_0001 interface Bundle-Ether2000.4021 brief
+Legend: pp = Partially Programmed.
+Bridge Group:Bridge-Domain Name  ID    State          Num ACs/up   Num PWs/up    Num PBBs/up Num VNIs/up
+-------------------------------- ----- -------------- ------------ ------------- ----------- -----------
+BG_IB_MGMT:BD_IB_MGMT_0001       0     up             3/3          0/0           0/0         0/0   
+
+******************************************************************************************
+*                                                                                        *
+*            run mdt_xpath.py 'show l2vpn bridge-domain bd-name BD_IB_MGMT_0001'         *
+*                                                                                        *
+******************************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#run mdt_xpath.py 'show l2vpn bridge-domain bd-name BD_IB_MGMT_0001'     
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-domains/bridge-domain/bridge-domain-info
+
+
+******************************************************************************************
+*                                                                                        *
+*            run mdt_xpath.py 'show l2vpn bridge-domain bd-name BD_IB_MGMT_0001 brief'   *
+*                                                                                        *
+******************************************************************************************
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#run mdt_xpath.py 'show l2vpn bridge-domain bd-name BD_IB_MGMT_0001 brief'
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-domains/bridge-domain/bridge-domain-info
+
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#sh l2vpn bridge-domain bd-name BD_IB_MGMT_0001 brief
+Legend: pp = Partially Programmed.
+Bridge Group:Bridge-Domain Name  ID    State          Num ACs/up   Num PWs/up    Num PBBs/up Num VNIs/up
+-------------------------------- ----- -------------- ------------ ------------- ----------- -----------
+BG_IB_MGMT:BD_IB_MGMT_0001       0     up             3/3          0/0           0/0         0/0       
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#run mdt_xpath.py 'show l2vpn bridge-domain bd-name brief'                
+Possible Matches:
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/indexes/index
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-resource-state
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/mstp-ports/mstp-port
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/proc-fsm
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/preferred-paths/preferred-path
+--> Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-summary <--
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/flexible-xconnect-service-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-mp2mp-ce2ces/xconnect-mp2mp-ce2ce
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/nsr
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/iccp-sm/iccp-sm-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/preferred-paths/preferred-path
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-resource-state
+Cisco-IOS-XR-aaa-locald-oper:aaa/authen-method
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/global-settings
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pwr/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-summary
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/groups/group
+--> Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-domains/bridge-domain/bridge-domain-info <--
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/pseudowire-classes/pseudowire-class
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/indexes/index
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-collaborators
+Cisco-IOS-XR-aaa-locald-oper:aaa/all-tasks
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-mp2mp-ce2ces/xconnect-mp2mp-ce2ce
+Cisco-IOS-XR-aaa-locald-oper:aaa/password-policies/password-policy
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-headend/detail-interfaces/detail-interface
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/summary
+Cisco-IOS-XR-aaa-locald-oper:aaa/current-usergroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/srte-policies/srte-policy
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/flexible-xconnect-services/flexible-xconnect-service/flexible-xconnect-service-info
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-mp2mps/xconnect-mp2mp
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-headend/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/mstp-ports/mstp-port
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-groups/xconnect-group
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/mstp-vlans/mstp-vlan
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-collaborators
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/discovery-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/pwr/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-pbb-bsa
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/discovery-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/discoveries/discovery
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/generic-interface-list-details/generic-interface-list-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/mstp-vlans/mstp-vlan
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-pbb-bsa
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/bridge-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/iccp-sm/iccp-sm-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/main-interfaces/main-interface/main-interface-info
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-groups/xconnect-group
+Cisco-IOS-XR-aaa-locald-oper:aaa/usergroups/usergroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/discoveries/discovery
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/counters
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-mp2mps/xconnect-mp2mp
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/srte-policies/srte-policy
+Cisco-IOS-XR-aaa-locald-oper:aaa/task-map
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/generic-interface-lists/generic-interface-list
+Cisco-IOS-XR-aaa-locald-oper:aaa/users/user
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-classes/pseudowire-class
+Cisco-IOS-XR-aaa-locald-oper:aaa/currentuser-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/generic-interface-lists/generic-interface-list
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/global-settings
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/proc-fsm
+Cisco-IOS-XR-aaa-locald-oper:aaa/taskgroups/taskgroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/nsr
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-brief
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/users/user
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/generic-interface-list-details/generic-interface-list-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/flexible-xconnect-service-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnects/xconnect
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-brief
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnects/xconnect
+
+
+
+
+
+
+RP/0/RP0/CPU0:ipt-far923-a-aea-01#run mdt_xpath.py 'sh l2vpn bridge-domain bd-name BG_IB_MGMT_0001 brief'
+Possible Matches:
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/indexes/index
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-resource-state
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/mstp-ports/mstp-port
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/proc-fsm
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/preferred-paths/preferred-path
+--> Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-summary <--
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/flexible-xconnect-service-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-mp2mp-ce2ces/xconnect-mp2mp-ce2ce
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/nsr
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/iccp-sm/iccp-sm-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/preferred-paths/preferred-path
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-resource-state
+Cisco-IOS-XR-aaa-locald-oper:aaa/authen-method
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/global-settings
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pwr/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-summary
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/groups/group
+--> Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-domains/bridge-domain/bridge-domain-info <--
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/pseudowire-classes/pseudowire-class
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/indexes/index
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-collaborators
+Cisco-IOS-XR-aaa-locald-oper:aaa/all-tasks
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-mp2mp-ce2ces/xconnect-mp2mp-ce2ce
+Cisco-IOS-XR-aaa-locald-oper:aaa/password-policies/password-policy
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-headend/detail-interfaces/detail-interface
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/summary
+Cisco-IOS-XR-aaa-locald-oper:aaa/current-usergroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/srte-policies/srte-policy
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/flexible-xconnect-services/flexible-xconnect-service/flexible-xconnect-service-info
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-mp2mps/xconnect-mp2mp
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-headend/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/mstp-ports/mstp-port
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-groups/xconnect-group
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/mstp-vlans/mstp-vlan
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-collaborators
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/discovery-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/pwr/summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/l2vpn-pbb-bsa
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/discovery-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/discoveries/discovery
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/generic-interface-list-details/generic-interface-list-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/mstp-vlans/mstp-vlan
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/l2vpn-pbb-bsa
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/bridge-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/iccp-sm/iccp-sm-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/main-interfaces/main-interface/main-interface-info
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-groups/xconnect-group
+Cisco-IOS-XR-aaa-locald-oper:aaa/usergroups/usergroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/discoveries/discovery
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/counters
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-mp2mps/xconnect-mp2mp
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/srte-policies/srte-policy
+Cisco-IOS-XR-aaa-locald-oper:aaa/task-map
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/generic-interface-lists/generic-interface-list
+Cisco-IOS-XR-aaa-locald-oper:aaa/users/user
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowire-classes/pseudowire-class
+Cisco-IOS-XR-aaa-locald-oper:aaa/currentuser-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/generic-interface-lists/generic-interface-list
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/global-settings
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/proc-fsm
+Cisco-IOS-XR-aaa-locald-oper:aaa/taskgroups/taskgroup
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/nsr
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnect-brief
+Cisco-IOS-XR-aaa-nacm-oper:aaa-nacm/users/user
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/generic-interface-list-details/generic-interface-list-detail
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/flexible-xconnect-service-summary
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnects/xconnect
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnect-brief
+Cisco-IOS-XR-l2vpn-oper:l2vpnv2/standby/xconnects/xconnect
