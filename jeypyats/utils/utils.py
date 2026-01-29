@@ -29,9 +29,31 @@ import importlib
 import logging
 from packaging import version
 from lxml import etree
+from pyats import aetest
 
 # create a logger for this module
 log = logging.getLogger(__name__)
+
+# Custom decorator alias for backwards compatibility
+# pyats.aetest uses 'cleanup' instead of 'teardown'
+teardown = aetest.cleanup
+
+__all__ = [
+    'teardown',
+    'JeyPyatsBaseException',
+    'JeyPyatsValueError',
+    'JeyPyatsTypeError',
+    'JeyPyatsNotFoundError',
+    'JeyPyatsNotImplementedError',
+    'JeyPyatsNotConnectedError',
+    'JeyPyatsStateError',
+    'apply_mixin',
+    'sanitize_xml',
+    'xml_insert_after',
+    'xml_insert_in',
+    'dict_intersection',
+    'block_if_fails',
+]
 
 
 class JeyPyatsBaseException(Exception):

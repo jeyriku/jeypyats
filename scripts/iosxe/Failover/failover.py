@@ -41,6 +41,7 @@ from pyats.topology import loader
 from jeypyats.parsers.iosxe.iosxe_routing_parsers_nc import IOSXERoutingParsersMixin
 from jeypyats.parsers.iosxe.iosxe_interface_parsers_nc import IOSXEInterfacesParsersMixin
 from jeypyats.utils.utils import block_if_fails
+from jeypyats.utils.utils import teardown
 import time
 
 # Set up logging
@@ -156,7 +157,7 @@ class FailoverTestcase(aetest.Testcase, IOSXERoutingParsersMixin, IOSXEInterface
             logger.info("Primary route is active and correct after restoration.")
 
     # Teardown for the testcase
-    @aetest.teardown
+    @teardown
     def teardown(self):
         """ Teardown for the failover testcase """
         logger.info("Failover testcase teardown complete.")
