@@ -34,7 +34,7 @@ def main(runtime):
     """
 
     # Default testbed path if not provided in runtime
-    default_testbed = "/Users/jeremierouzet/Documents/Dev/pyats/testbed/ioxe/ioxe_jeytestbed_cisco_init_v0.0.1.yml"
+    default_testbed = "/Users/jeremierouzet/Documents/Dev/pyats/testbed/iosxe/iosxe_jeytestbed_cisco_failover.yml"
 
     # Get testbed from runtime arguments or use default
     testbed_file = runtime.testbed or default_testbed

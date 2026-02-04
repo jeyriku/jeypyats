@@ -53,6 +53,7 @@ __all__ = [
     'xml_insert_in',
     'dict_intersection',
     'block_if_fails',
+    'bind_iosxe_parsers_to_device',
 ]
 
 
@@ -288,3 +289,31 @@ def block_if_fails(func):
             self.failed(f"Testcase blocked due to failure in {func.__name__}: {e}")
     return wrapper
 
+
+def bind_iosxe_parsers_to_device(device):
+    """
+    Binds IOS-XE NETCONF parsers to a device instance.
+
+    This function applies the routing and interface parsers to the device,
+    allowing it to use methods like get_routing_table_default_routes and get_interface_status.
+
+    Args:
+        device: The device instance to bind the parsers to.
+
+    Returns:
+        None
+    """
+    from ..parsers.iosxe.iosxe_routing_parsers_nc import IOSXERoutingParsersMixin
+    from ..parsers.iosxe.iosxe_interface_parsers_nc import IOSXEInterfacesParsersMixin
+    from ..parsers.iosxe.iosxe_eem_parsers_nc import IOSXEEEMParsersMixin
+    from ..parsers.iosxe.iosxe_syslog_parsers_nc import IOSXESyslogParsersMixin
+    from ..parsers.iosxe.iosxe_ip_sla_parsers_nc import IOSXEIPSLAParsersMixin
+    from ..parsers.iosxe.iosxe_track_parsers_nc import IOSXETrackParsersMixin
+    from ..parsers.iosxe.iosxe_cellular_parsers_nc import IOSXECellularParsersMixin
+    IOSXERoutingParsersMixin.bind_to_device(device)
+    IOSXEInterfacesParsersMixin.bind_to_device(device)
+    IOSXEEEMParsersMixin.bind_to_device(device)
+    IOSXESyslogParsersMixin.bind_to_device(device)
+    IOSXEIPSLAParsersMixin.bind_to_device(device)
+    IOSXETrackParsersMixin.bind_to_device(device)
+    IOSXECellularParsersMixin.bind_to_device(device)

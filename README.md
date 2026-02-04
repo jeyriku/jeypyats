@@ -14,6 +14,7 @@ A comprehensive framework for parsing network device configurations and operatio
 - **Comprehensive Testing**: 22 unit tests covering all parsers with pytest
 - **Modern Packaging**: Proper Python package structure with console scripts
 - **Extensible Architecture**: Easy to add new parsers and utilities
+- **Failover Testing**: Automated failover scripts for testing network resilience
 
 ## Installation
 
@@ -60,6 +61,8 @@ jeypyats-test
 This will run all 22 unit tests covering:
 - IOS-XE routing parsers (BGP, OSPF, routing tables)
 - IOS-XE L2VPN parsers (bridge domain information)
+- IOS-XE IP SLA and track parsers
+- IOS-XE cellular and syslog parsers
 - XRD interface parsers (OpenConfig, XR, OC variants)
 
 ### Using the Parsers
@@ -82,6 +85,17 @@ parser = ParsersMixin()
 bgp_routes = parser.get_bgp_routes()
 ```
 
+### Failover Testing
+
+The framework includes automated failover testing scripts for network resilience:
+
+```bash
+# Run failover test for IOS-XE devices
+python scripts/iosxe/Failover/failover.py --testbed testbed.yaml
+```
+
+This script tests automatic failover between FTTH and LTE connections using IP SLA, object tracking, and EEM applets.
+
 ## Project Structure
 
 ```
@@ -91,8 +105,13 @@ jeypyats/
 │   ├── __init__.py
 │   ├── iosxe/                  # IOS-XE specific parsers
 │   │   ├── __init__.py
-│   │   ├── iosxe_interface_parsers_nc.py
-│   │   ├── iosxe_routing_parsers_nc.py
+│   │   ├── iosxe_cellular_parsers_nc.py    # Cellular SIM config parsers
+│   │   ├── iosxe_eem_parsers_nc.py         # EEM script parsers
+│   │   ├── iosxe_interface_parsers_nc.py   # Interface status parsers
+│   │   ├── iosxe_ip_sla_parsers_nc.py      # IP SLA state parsers
+│   │   ├── iosxe_routing_parsers_nc.py     # Routing table parsers
+│   │   ├── iosxe_syslog_parsers_nc.py      # Syslog parsers
+│   │   ├── iosxe_track_parsers_nc.py       # Object tracking parsers
 │   │   └── parsers.egg-info/
 │   └── xrd/                    # IOS-XR specific parsers
 │       ├── __init__.py

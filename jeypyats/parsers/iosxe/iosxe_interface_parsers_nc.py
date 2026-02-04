@@ -31,6 +31,7 @@ from genie.utils import Dq
 from lxml import etree
 from ...utils import BASE_RPC
 from packaging import version
+import json
 
 
 
@@ -129,3 +130,58 @@ class IOSXEInterfacesParsersMixin:
 
         logger.info("Cellular interface status retrieved successfully")
         return result
+
+    def get_interface_status(self, interface):
+        """ Get status of a specific interface
+
+            Args:
+                interface (str): Interface name to query.
+
+            Returns:
+                dict: Parsed interface status information.
+        """
+        logger.info(f"Retrieving status for interface {interface}")
+        filter_xml = """
+            <filter>
+                <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+                </interfaces-state>
+            </filter>
+        """
+
+        response = self.netconf_get(filter=filter_xml)
+        # Remove XML declaration if present
+        xml_content = response.xml
+        if xml_content.startswith('<?xml'):
+            xml_content = xml_content.split('?>', 1)[1].strip()
+        xml_data = etree.fromstring(xml_content.encode('utf-8'), parser)
+
+        data_dict = xmltodict.parse(etree.tostring(xml_data))
+        if 'rpc-reply' not in data_dict or 'data' not in data_dict['rpc-reply'] or data_dict['rpc-reply']['data'] is None:
+            return {'oper_status': 'unknown', 'admin_status': 'unknown'}
+
+        interfaces_state = data_dict['rpc-reply']['data'].get('interfaces-state', {})
+        interfaces = interfaces_state.get('interface', [])
+
+        # Handle single interface (dict) or multiple (list)
+        if isinstance(interfaces, dict):
+            interfaces = [interfaces]
+
+        logger.info(f"DEBUG: interfaces found: {json.dumps(interfaces, indent=2)}")
+
+        for intf in interfaces:
+            if intf.get('name') == interface:
+                oper_status = intf.get('oper-status', 'unknown')
+                admin_status = intf.get('admin-status', 'unknown')
+                result = {
+                    'oper_status': oper_status,
+                    'admin_status': admin_status
+                }
+                logger.info(f"Interface {interface} status retrieved successfully")
+                return result
+
+        # Interface not found
+        return {'oper_status': 'unknown', 'admin_status': 'unknown'}
+
+    @classmethod
+    def bind_to_device(cls, device):
+        setattr(device, 'get_interface_status', cls.get_interface_status.__get__(device, type(device)))

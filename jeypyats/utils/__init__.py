@@ -20,5 +20,5 @@ __copyright__ = 'Netalps, 2026'
 __license__ = "Netalps, Copyright 2026. All rights reserved."
 
 from .utils import *
-from .rpc_msgs import BASE_RPC, RPC_OK_MSG, RPC_EMPTY_MSG
+from .rpc_msgs import BASE_RPC, BASE_RPC_RPC, RPC_OK_MSG, RPC_EMPTY_MSG
 from .netconf_connector import connect_netconf

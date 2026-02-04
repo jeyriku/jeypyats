@@ -48,3 +48,9 @@ BASE_RPC = """
   </get>
 </rpc>
 """
+
+BASE_RPC_RPC = """
+<rpc xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+{xml_rpc}
+</rpc>
+"""
