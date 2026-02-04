@@ -44,9 +44,12 @@ class IOSXECellularParsersMixin:
         cellular_filter = f'''
         <filter>
             <cellular xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-cellular-oper">
-                <{interface}>
-                    <sim/>
-                </{interface}>
+                <cellular>
+                    <interface>
+                        <name>{interface}</name>
+                        <sim/>
+                    </interface>
+                </cellular>
             </cellular>
         </filter>
         '''
