@@ -1,7 +1,7 @@
 
 # JeyPyats - Network Device Parsing Framework
 
-[![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/your-repo/jeypyats)
+[![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/your-repo/jeypyats)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -258,6 +258,13 @@ logging.basicConfig(level=logging.DEBUG)
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Changelog
+
+### Version 1.1.2 (February 4, 2026)
+- ✅ **Failover Script Updates**: Enhanced failover.py to use NETCONF parsers exclusively for all checks (routing, IP SLA, tracks, SIM config, syslog)
+- ✅ **Modular Parser Architecture**: Separated parsers into dedicated files with mixin classes for device binding
+- ✅ **Robust Error Handling**: Made SLA, track, and SIM checks optional if NETCONF data is not retrievable
+- ✅ **Syslog Parsing Improvements**: Updated syslog parser to handle buffered messages as strings and parse into dicts
+- ✅ **Cellular Parser Fix**: Corrected XML filter for SIM configuration retrieval
 
 ### Version 1.1.1 (January 28, 2026)
 - ✅ **Failover Script Enhancements**: Added more methods to testscript failover.py
