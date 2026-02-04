@@ -81,25 +81,35 @@ class IOSXESyslogParsersMixin:
             return []
 
         # Navigate to syslog messages
-        logging_data = data.get('logging', {}).get('buffered', {}).get('messages', {})
-        messages = logging_data.get('message', [])
+        logging_data = data.get('logging', {}).get('buffered', {}).get('messages')
+        if not logging_data:
+            return []
 
-        # Handle both single message (dict) and multiple messages (list)
-        if isinstance(messages, dict):
-            messages = [messages]
+        # messages is a string, split into lines
+        messages_text = logging_data if isinstance(logging_data, str) else str(logging_data)
+        lines = messages_text.strip().split('\n')
 
         parsed_messages = []
 
-        for msg in messages:
-            parsed_msg = {
-                'timestamp': msg.get('timestamp'),
-                'text': msg.get('text'),
-            }
-            if filter_text:
-                if filter_text.lower() in parsed_msg.get('text', '').lower():
-                    parsed_messages.append(parsed_msg)
-            else:
-                parsed_messages.append(parsed_msg)
+        for line in lines:
+            if line.strip():
+                # Parse line: *timestamp: %facility-severity-MNEMONIC: message
+                if line.startswith('*'):
+                    parts = line.split(':', 2)
+                    if len(parts) >= 3:
+                        timestamp = parts[0][1:].strip()  # remove *
+                        facility = parts[1].strip()
+                        text = parts[2].strip()
+                        parsed_msg = {
+                            'timestamp': timestamp,
+                            'facility': facility,
+                            'text': text,
+                        }
+                        if filter_text:
+                            if filter_text.lower() in text.lower():
+                                parsed_messages.append(parsed_msg)
+                        else:
+                            parsed_messages.append(parsed_msg)
 
         return parsed_messages
 
