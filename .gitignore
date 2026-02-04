@@ -142,5 +142,7 @@ Thumbs.db
 # Build artifacts
 bin/
 include/
+lib/
+share/
 pyvenv.cfg
 *.pth
