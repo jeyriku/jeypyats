@@ -1,4 +1,4 @@
-#!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 ########################################################################################################################
 # This file is a part of Netalps.fr.

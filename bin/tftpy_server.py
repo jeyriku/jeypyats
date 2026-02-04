@@ -1,4 +1,4 @@
-#!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python3.11
+#!/usr/bin/env python3.11
 # vim: ts=4 sw=4 et ai:
 # -*- coding: utf8 -*-
 

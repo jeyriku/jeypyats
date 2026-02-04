@@ -1,4 +1,4 @@
-#!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python3.11
+#!/usr/bin/env python3.11
 
 ##############################################################################
 #

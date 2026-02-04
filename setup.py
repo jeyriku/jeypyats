@@ -1,4 +1,4 @@
-#!/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/bin/python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 ########################################################################################################################
 # This file is a part of Netalps.fr
@@ -27,7 +27,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='jeypyats',
-    version='1.1.0',
+    version='1.1.2',
     packages=find_packages(),
     package_dir={'': '.'},
     install_requires=[
@@ -56,7 +56,7 @@ setup(
     description='JeyPyats: Automated testing framework for network equipment via NETCONF',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/jeyriku/pyats-jeyws01',
+    url='https://github.com/jeyriku/jeypyats',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -75,8 +75,8 @@ setup(
     python_requires='>=3.8',
     keywords='networking netconf automation testing cisco ios-xe ios-xr pyats',
     project_urls={
-        'Bug Reports': 'https://github.com/jeyriku/pyats-jeyws01/issues',
-        'Source': 'https://github.com/jeyriku/pyats-jeyws01',
+        'Bug Reports': 'https://github.com/jeyriku/jeypyats/issues',
+        'Source': 'https://github.com/jeyriku/jeypyats',
     },
     entry_points={
         'console_scripts': [
