@@ -40,7 +40,7 @@ from pyats import aetest
 from pyats.topology import loader
 from jeypyats.utils.utils import block_if_fails
 from jeypyats.utils.utils import teardown
-from utils import apply_netconf_parsers
+from jeypyats.utils.utils import apply_netconf_parsers
 from jeypyats.utils.netconf_connector import NetconfConnectorConnection
 import time
 import json

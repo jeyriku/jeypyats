@@ -332,6 +332,21 @@ class IOSXERoutingParsersMixin:
             # If the expected structure is not found, return empty list
             return []
 
+    def get_routing_table_default_routes(self):
+        """
+        Retrieve default routes via NETCONF by getting all routes and filtering for 0.0.0.0/0.
+        Returns list of dicts with prefix, protocol, next_hop, metric, interface
+        """
+        try:
+            all_routes = self.get_routing_table(vrf='default')
+            logger.debug(f"All routes: {all_routes}")
+            default_routes = [route for route in all_routes if route.get('prefix') == '0.0.0.0/0']
+            logger.info(f"Default routes found: {default_routes}")
+            return default_routes
+        except Exception as e:
+            logger.error(f"Failed to retrieve default routes via NETCONF: {e}")
+            return []
+
     @classmethod
     def bind_to_device(cls, device):
         setattr(device, 'get_routing_table_default_routes', cls.get_routing_table_default_routes.__get__(device, type(device)))

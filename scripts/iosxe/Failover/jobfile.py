@@ -43,7 +43,7 @@ def main(runtime):
 
     # Run the test script
     run(
-        testscript='/Users/jeremierouzet/Documents/Dev/pyats/pyats-jeyws01/scripts/iosxe/Failover/failover.py',
+        testscript='/Users/jeremierouzet/Documents/Dev/pyats/jeypyats/scripts/iosxe/Failover/failover.py',
         runtime=runtime,
         taskid='Tests_Failover',
         testbed=testbed_file,

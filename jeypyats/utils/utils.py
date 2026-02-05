@@ -317,3 +317,17 @@ def bind_iosxe_parsers_to_device(device):
     IOSXEIPSLAParsersMixin.bind_to_device(device)
     IOSXETrackParsersMixin.bind_to_device(device)
     IOSXECellularParsersMixin.bind_to_device(device)
+
+
+def apply_netconf_parsers(device):
+    """
+    Apply NETCONF parser mixins to the device.
+    """
+    from ..parsers.iosxe.iosxe_cellular_parsers_nc import IOSXECellularParsersMixin
+    from ..parsers.iosxe.iosxe_syslog_parsers_nc import IOSXESyslogParsersMixin
+    from ..parsers.iosxe.iosxe_ip_sla_parsers_nc import IOSXEIPSLAParsersMixin
+    from ..parsers.iosxe.iosxe_track_parsers_nc import IOSXETrackParsersMixin
+    from ..parsers.iosxe.iosxe_routing_parsers_nc import IOSXERoutingParsersMixin
+    from ..parsers.iosxe.iosxe_interface_parsers_nc import IOSXEInterfacesParsersMixin
+    device.__class__ = type('IOSXENETCONFDevice', (device.__class__, IOSXECellularParsersMixin, IOSXESyslogParsersMixin, IOSXEIPSLAParsersMixin, IOSXETrackParsersMixin, IOSXERoutingParsersMixin, IOSXEInterfacesParsersMixin), {})
+    log.info("Applied NETCONF parser mixins to device.")
