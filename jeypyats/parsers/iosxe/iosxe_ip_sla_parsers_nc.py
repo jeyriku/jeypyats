@@ -6,7 +6,7 @@
 # Created: 04.02.2026 12:00:00
 # Author: Jeremie Rouzet
 #
-# Last Modified: 04.02.2026 10:07:10
+# Last Modified: 05.02.2026 09:32:42
 # Modified By: Jeremie Rouzet
 #
 # Copyright (c) 2026 Netalps.fr
@@ -22,6 +22,7 @@ Pyats IOS XE IP SLA parsers using Netconf
 This module contains parsers to retrieve IP SLA information from Cisco IOS XE devices via Netconf.
 '''
 import logging
+import xmltodict
 import xml.etree.ElementTree as ET
 from ...utils import BASE_RPC
 
@@ -49,16 +50,16 @@ class IOSXEIPSLAParsersMixin:
         response = self.nc.get(filter=sla_filter)
         data = response.data_xml
         root = ET.fromstring(data)
-        sla_states = {}
-        for sla in root.findall('.//ip-sla-stat'):
-            sla_id_elem = sla.find('sla-index')
-            oper_state_elem = sla.find('oper-state')
-            sla_id = sla_id_elem.text if sla_id_elem is not None else None
-            oper_state = oper_state_elem.text if oper_state_elem is not None else None
-            if sla_id:
-                sla_states[sla_id] = {'oper_state': oper_state}
-        return sla_states
+        data_dict = xmltodict.parse(ET.tostring(root))
 
-    @classmethod
-    def bind_to_device(cls, device):
-        setattr(device, 'get_ip_sla_states', cls.get_ip_sla_states.__get__(device, type(device)))
+        sla_states = {}
+        ip_sla_stats = data_dict.get('data', {}).get('ns0:ip-sla-stats', {})
+        ip_sla_stat_list = ip_sla_stats.get('ns0:ip-sla-stat', [])
+        if isinstance(ip_sla_stat_list, dict):
+            ip_sla_stat_list = [ip_sla_stat_list]
+        for sla in ip_sla_stat_list:
+            sla_id = sla.get('ns0:sla-index')
+            oper_state = sla.get('ns0:oper-state')
+            if sla_id:
+                sla_states[str(sla_id)] = {'oper_state': oper_state}
+        return sla_states

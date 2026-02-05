@@ -229,14 +229,12 @@ class IOSXERoutingParsersMixin:
             </filter>
         '''
         response = self.netconf_get(filter=filter_xml)
-        print(f"DEBUG routing: raw response.xml = {response.xml}")  # Debug raw response
         # Remove XML declaration if present
         xml_content = response.xml
         if xml_content.startswith('<?xml'):
             xml_content = xml_content.split('?>', 1)[1].strip()
         xml_data = etree.fromstring(xml_content.encode('utf-8'), parser)
         data_dict = xmltodict.parse(etree.tostring(xml_data))
-        print(f"DEBUG routing: data_dict = {data_dict}")  # Debug print
 
         # Fix interface for default route if None
         routing_state = data_dict.get('rpc-reply', {}).get('data', {}).get('routing-state', {})
@@ -330,21 +328,6 @@ class IOSXERoutingParsersMixin:
             return parsed_entries
         except (KeyError, TypeError):
             # If the expected structure is not found, return empty list
-            return []
-
-    def get_routing_table_default_routes(self):
-        """
-        Retrieve default routes via NETCONF by getting all routes and filtering for 0.0.0.0/0.
-        Returns list of dicts with prefix, protocol, next_hop, metric, interface
-        """
-        try:
-            all_routes = self.get_routing_table(vrf='default')
-            logger.debug(f"All routes: {all_routes}")
-            default_routes = [route for route in all_routes if route.get('prefix') == '0.0.0.0/0']
-            logger.info(f"Default routes found: {default_routes}")
-            return default_routes
-        except Exception as e:
-            logger.error(f"Failed to retrieve default routes via NETCONF: {e}")
             return []
 
     @classmethod

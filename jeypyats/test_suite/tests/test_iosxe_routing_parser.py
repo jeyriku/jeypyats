@@ -167,6 +167,49 @@ class TestIOSXERoutingParser(unittest.TestCase):
         self.mock_device.netconf_get.assert_called_once()
         self.assertIsInstance(result, list)
 
+    @patch('jeypyats.parsers.iosxe.iosxe_routing_parsers_nc.logger')
+    def test_get_routing_table_default_routes_success(self, mock_logger):
+        """Test successful retrieval of default routes using IETF routing"""
+        mock_response = MagicMock()
+        mock_response.xml = """<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="1">
+            <data>
+                <routing-state xmlns="urn:ietf:params:xml:ns:yang:ietf-routing">
+                    <routing-instance>
+                        <name>default</name>
+                        <ribs>
+                            <rib>
+                                <name>ipv4-default</name>
+                                <routes>
+                                    <route>
+                                        <destination-prefix>0.0.0.0/0</destination-prefix>
+                                        <source-protocol>static</source-protocol>
+                                        <next-hop>
+                                            <next-hop-address>82.66.83.254</next-hop-address>
+                                            <outgoing-interface>GigabitEthernet0/0/0</outgoing-interface>
+                                        </next-hop>
+                                        <metric>1</metric>
+                                    </route>
+                                </routes>
+                            </rib>
+                        </ribs>
+                    </routing-instance>
+                </routing-state>
+            </data>
+        </rpc-reply>"""
+
+        self.mock_device.netconf_get.return_value = mock_response
+
+        result = IOSXERoutingParsersMixin.get_routing_table_default_routes(self.mock_device)
+
+        # Verify the call was made with the correct filter
+        self.mock_device.netconf_get.assert_called_once()
+        call_args = self.mock_device.netconf_get.call_args[1]['filter']
+        self.assertIn('urn:ietf:params:xml:ns:yang:ietf-routing', call_args)
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]['prefix'], '0.0.0.0/0')
+        self.assertEqual(result[0]['next_hop'], '82.66.83.254')
+
 
 if __name__ == '__main__':
     unittest.main()

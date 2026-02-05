@@ -6,7 +6,7 @@
 # Created: 04.02.2026 12:00:00
 # Author: Jeremie Rouzet
 #
-# Last Modified: 04.02.2026 10:07:11
+# Last Modified: 05.02.2026 09:32:47
 # Modified By: Jeremie Rouzet
 #
 # Copyright (c) 2026 Netalps.fr
@@ -22,6 +22,7 @@ Pyats IOS XE Track parsers using Netconf
 This module contains parsers to retrieve Track information from Cisco IOS XE devices via Netconf.
 '''
 import logging
+import xmltodict
 import xml.etree.ElementTree as ET
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
@@ -48,14 +49,18 @@ class IOSXETrackParsersMixin:
         response = self.nc.get(filter=track_filter)
         data = response.data_xml
         root = ET.fromstring(data)
+        data_dict = xmltodict.parse(ET.tostring(root))
+
         track_states = {}
-        for track in root.findall('.//track'):
-            track_id_elem = track.find('track-number')
-            state_elem = track.find('track-state')
-            track_id = track_id_elem.text if track_id_elem is not None else None
-            state = state_elem.text if state_elem is not None else None
+        tracks = data_dict.get('data', {}).get('ns0:tracks', {})
+        track_list = tracks.get('ns0:track', [])
+        if isinstance(track_list, dict):
+            track_list = [track_list]
+        for track in track_list:
+            track_id = track.get('ns0:track-number')
+            state = track.get('ns0:track-state')
             if track_id:
-                track_states[track_id] = {'state': state}
+                track_states[str(track_id)] = {'state': state}
         return track_states
 
     @classmethod

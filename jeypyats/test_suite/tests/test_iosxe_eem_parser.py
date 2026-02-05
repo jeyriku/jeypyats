@@ -26,10 +26,31 @@ class TestIOSXEEEMParser(unittest.TestCase):
         """Set up test fixtures"""
         self.mock_device = MagicMock()
 
-    def test_get_eem_event_history_success(self):
+    @patch('jeypyats.parsers.iosxe.iosxe_eem_parsers_nc.logger')
+    def test_get_eem_event_history_success(self, mock_logger):
         """Test successful EEM event history retrieval"""
-        # Placeholder test
-        self.assertTrue(True)
+        mock_response = MagicMock()
+        mock_response.xml = """<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="1">
+            <data>
+                <event-history xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-eem">
+                    <event>
+                        <name>event1</name>
+                        <type>timer</type>
+                        <time>2023-01-01T00:00:00Z</time>
+                        <description>Test event</description>
+                    </event>
+                </event-history>
+            </data>
+        </rpc-reply>"""
+
+        self.mock_device.netconf_get.return_value = mock_response
+
+        result = IOSXEEEMParsersMixin.get_eem_event_history(self.mock_device)
+
+        self.mock_device.netconf_get.assert_called_once()
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]['name'], 'event1')
 
 
 if __name__ == '__main__':
