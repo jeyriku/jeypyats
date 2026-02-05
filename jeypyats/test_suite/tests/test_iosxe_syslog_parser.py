@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+########################################################################################################################
+#
+# File: test_iosxe_syslog_parser.py
+# This file is a part of Netalps.fr
+#
+# Created: 05.02.2026 10:00:00
+# Author: GitHub Copilot
+#
+# Last Modified: 05.02.2026 10:00:00
+# Modified By: Jeremie Rouzet
+#
+# Copyright (c) 2026 Netalps.fr
+########################################################################################################################
+
+import unittest
+
+
+class TestIOSXESyslogParser(unittest.TestCase):
+    """Unit tests for IOS-XE syslog parsers"""
+
+    def test_placeholder(self):
+        """Placeholder test"""
+        self.assertTrue(True)
+
+
+if __name__ == '__main__':
+    unittest.main()

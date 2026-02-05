@@ -56,7 +56,7 @@ class IOSXECellularParsersMixin:
         response = self.nc.get(filter=cellular_filter)
         data = response.data_xml
         root = ET.fromstring(data)
-        sim_config = {}
+        sim_config = {'slot': None, 'data_profile': None}
         sim = root.find('.//sim')
         if sim is not None:
             slot_elem = sim.find('slot')
