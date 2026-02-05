@@ -23,11 +23,16 @@ This module contains parsers to retrieve IP SLA information from Cisco IOS XE de
 '''
 import logging
 import xmltodict
-import xml.etree.ElementTree as ET
+from lxml import etree
 from ...utils import BASE_RPC
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
+
+parser = etree.XMLParser()
+parser.set_element_class_lookup(
+    etree.ElementDefaultClassLookup(element=etree.ElementBase)
+)
 
 class IOSXEIPSLAParsersMixin:
     '''
@@ -48,18 +53,21 @@ class IOSXEIPSLAParsersMixin:
         </filter>
         '''
         response = self.nc.get(filter=sla_filter)
-        data = response.data_xml
-        root = ET.fromstring(data)
-        data_dict = xmltodict.parse(ET.tostring(root))
+        # Remove XML declaration if present
+        xml_content = response.xml
+        if xml_content.startswith('<?xml'):
+            xml_content = xml_content.split('?>', 1)[1].strip()
+        xml_data = etree.fromstring(xml_content.encode('utf-8'), parser)
+        data_dict = xmltodict.parse(etree.tostring(xml_data))
 
         sla_states = {}
-        ip_sla_stats = data_dict.get('data', {}).get('ns0:ip-sla-stats', {})
-        ip_sla_stat_list = ip_sla_stats.get('ns0:ip-sla-stat', [])
+        ip_sla_stats = data_dict.get('rpc-reply', {}).get('data', {}).get('ip-sla-stats', {})
+        ip_sla_stat_list = ip_sla_stats.get('ip-sla-stat', [])
         if isinstance(ip_sla_stat_list, dict):
             ip_sla_stat_list = [ip_sla_stat_list]
         for sla in ip_sla_stat_list:
-            sla_id = sla.get('ns0:sla-index')
-            oper_state = sla.get('ns0:oper-state')
+            sla_id = sla.get('sla-index')
+            oper_state = sla.get('oper-state')
             if sla_id:
                 sla_states[str(sla_id)] = {'oper_state': oper_state}
         return sla_states

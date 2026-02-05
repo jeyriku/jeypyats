@@ -30,14 +30,16 @@ class TestIOSXETrackParser(unittest.TestCase):
     def test_get_track_states_success(self, mock_logger):
         """Test successful track states retrieval"""
         mock_response = MagicMock()
-        mock_response.data_xml = """<data>
-            <tracks xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-track-oper">
-                <track>
-                    <track-number>1</track-number>
-                    <track-state>up</track-state>
-                </track>
-            </tracks>
-        </data>"""
+        mock_response.xml = """<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="1">
+            <data>
+                <tracks xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-track-oper">
+                    <track>
+                        <track-number>1</track-number>
+                        <track-state>up</track-state>
+                    </track>
+                </tracks>
+            </data>
+        </rpc-reply>"""
 
         self.mock_device.nc.get.return_value = mock_response
 
