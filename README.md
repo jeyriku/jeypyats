@@ -1,7 +1,7 @@
 
 # JeyPyats - Network Device Parsing Framework
 
-[![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/jeyriku/jeypyats)
+[![Version](https://img.shields.io/badge/version-1.1.3-blue.svg)](https://github.com/jeyriku/jeypyats)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -11,7 +11,7 @@ A comprehensive framework for parsing network device configurations and operatio
 
 - **Multi-Platform Support**: Parsers for Cisco IOS-XE, IOS-XR, and other network platforms
 - **NETCONF Integration**: Full NETCONF support with ncclient for device communication
-- **Comprehensive Testing**: 29 unit tests covering all parsers with pytest
+- **Comprehensive Testing**: 33 unit tests covering all parsers with pytest
 - **Modern Packaging**: Proper Python package structure with console scripts
 - **Extensible Architecture**: Easy to add new parsers and utilities
 - **Failover Testing**: Automated failover scripts for testing network resilience
@@ -58,9 +58,8 @@ The package includes a comprehensive test suite that can be run with a single co
 jeypyats-test
 ```
 
-This will run all 29 unit tests covering:
+This will run all 33 unit tests covering:
 - IOS-XE routing parsers (BGP, OSPF, routing tables)
-- IOS-XE L2VPN parsers (bridge domain information)
 - IOS-XE IP SLA and track parsers
 - IOS-XE cellular and syslog parsers
 - IOS-XE EEM and interface parsers
@@ -112,8 +111,7 @@ jeypyats/
 │   │   ├── iosxe_ip_sla_parsers_nc.py      # IP SLA state parsers
 │   │   ├── iosxe_routing_parsers_nc.py     # Routing table parsers
 │   │   ├── iosxe_syslog_parsers_nc.py      # Syslog parsers
-│   │   ├── iosxe_track_parsers_nc.py       # Object tracking parsers
-│   │   └── parsers.egg-info/
+│   │   └── iosxe_track_parsers_nc.py       # Object tracking parsers
 │   └── xrd/                    # IOS-XR specific parsers
 │       ├── __init__.py
 │       ├── xrd_interface_parser_nc.py
@@ -128,7 +126,7 @@ jeypyats/
     ├── __init__.py
     ├── scripts/
     │   └── run_all_tests.py   # Test runner script
-    └── tests/                 # Unit tests (29 test files)
+    └── tests/                 # Unit tests (33 test files)
 ```
 
 ## Configuration
@@ -215,13 +213,13 @@ The framework includes comprehensive unit tests with mocks for all external depe
 # Run complete test suite
 jeypyats-test
 
-# Expected output: 29 passed tests
-============================= 29 passed, 2 warnings in 0.49s =============================
+# Expected output: 33 passed tests
+============================= 33 passed, 2 warnings in 0.49s =============================
 ```
 
 ### Test Coverage
 
-- **IOS-XE Parsers**: Routing tables, BGP/OSPF routes, L2VPN bridge domains
+- **IOS-XE Parsers**: Routing tables, BGP/OSPF routes, IP SLA and track states, cellular SIM config, syslog, EEM events, interface status
 - **XRD Parsers**: Interface status for OpenConfig, XR, and OC variants
 - **Error Handling**: Invalid responses, connection failures, malformed XML
 - **Edge Cases**: Empty data, missing fields, network timeouts
@@ -261,9 +259,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Changelog
 
 ### Version 1.1.3 (February 5, 2026)
-- ✅ **Complete Test Coverage**: Added unit tests for all remaining parsers (EEM, interface, IP SLA, syslog, track) bringing total to 29 tests
-- ✅ **Test Suite Expansion**: Created comprehensive test files for IOS-XE cellular, EEM, interface, IP SLA, syslog, and track parsers
-- ✅ **Parser Improvements**: Enhanced cellular parser to return consistent dict structure with None values for missing data
+- ✅ **Parser Response Handling**: Fixed IP SLA and track parsers to properly parse full NETCONF `<rpc-reply>` responses instead of partial data
+- ✅ **XML Navigation Fixes**: Updated parsers to use `response.xml` and navigate `rpc-reply → data → [parser-data]` structure
+- ✅ **Namespace Handling**: Corrected XML key access for parsers without namespace prefixes
+- ✅ **Test Suite Expansion**: Updated to 33 comprehensive unit tests with proper mocking of full NETCONF responses
+- ✅ **Parser Consistency**: Standardized all parsers to use `lxml.etree` and `xmltodict` for reliable XML processing
 
 ### Version 1.1.2 (February 4, 2026)
 - ✅ **Failover Script Updates**: Enhanced failover.py to use NETCONF parsers exclusively for all checks (routing, IP SLA, tracks, SIM config, syslog)

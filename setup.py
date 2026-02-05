@@ -27,7 +27,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='jeypyats',
-    version='1.1.2',
+    version='1.1.3',
     packages=find_packages(),
     package_dir={'': '.'},
     install_requires=[

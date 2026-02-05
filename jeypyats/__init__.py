@@ -22,7 +22,7 @@ This package provides parsers for different network operating systems and protoc
 utilities for device connectivity, and a complete test suite.
 """
 
-__version__ = "1.1.0"
+__version__ = "1.1.3"
 __author__ = "Jeremie Rouzet"
 __email__ = "jeremie.rouzet@netalps.fr"
 
