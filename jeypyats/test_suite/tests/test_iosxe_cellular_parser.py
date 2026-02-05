@@ -8,7 +8,7 @@
 # Created: 05.02.2026 10:00:00
 # Author: GitHub Copilot
 #
-# Last Modified: 05.02.2026 10:00:00
+# Last Modified: 05.02.2026 11:18:37
 # Modified By: Jeremie Rouzet
 #
 # Copyright (c) 2026 Netalps.fr
@@ -42,7 +42,7 @@ class TestIOSXECellularParser(unittest.TestCase):
             </cellular>
         </cellular>'''
 
-        self.mock_device.nc.get.return_value = mock_response
+        self.mock_device.netconf_get.return_value = mock_response
 
         result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
 
@@ -61,7 +61,7 @@ class TestIOSXECellularParser(unittest.TestCase):
             </cellular>
         </cellular>'''
 
-        self.mock_device.nc.get.return_value = mock_response
+        self.mock_device.netconf_get.return_value = mock_response
 
         result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
 

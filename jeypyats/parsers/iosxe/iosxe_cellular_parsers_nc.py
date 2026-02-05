@@ -53,7 +53,7 @@ class IOSXECellularParsersMixin:
             </cellular>
         </filter>
         '''
-        response = self.nc.get(filter=cellular_filter)
+        response = self.netconf_get(filter=cellular_filter)
         data = response.data_xml
         root = ET.fromstring(data)
         sim_config = {'slot': None, 'data_profile': None}

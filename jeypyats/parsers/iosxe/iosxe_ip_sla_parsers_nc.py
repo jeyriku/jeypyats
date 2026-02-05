@@ -52,7 +52,7 @@ class IOSXEIPSLAParsersMixin:
             </ip-sla-stats>
         </filter>
         '''
-        response = self.nc.get(filter=sla_filter)
+        response = self.netconf_get(filter=sla_filter)
         # Remove XML declaration if present
         xml_content = response.xml
         if xml_content.startswith('<?xml'):

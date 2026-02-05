@@ -41,11 +41,11 @@ class TestIOSXETrackParser(unittest.TestCase):
             </data>
         </rpc-reply>"""
 
-        self.mock_device.nc.get.return_value = mock_response
+        self.mock_device.netconf_get.return_value = mock_response
 
         result = IOSXETrackParsersMixin.get_track_states(self.mock_device)
 
-        self.mock_device.nc.get.assert_called_once()
+        self.mock_device.netconf_get.assert_called_once()
         self.assertIsInstance(result, dict)
         self.assertIn('1', result)
         self.assertEqual(result['1']['state'], 'up')

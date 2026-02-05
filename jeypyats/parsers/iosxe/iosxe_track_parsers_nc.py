@@ -52,7 +52,7 @@ class IOSXETrackParsersMixin:
             </tracks>
         </filter>
         '''
-        response = self.nc.get(filter=track_filter)
+        response = self.netconf_get(filter=track_filter)
         # Remove XML declaration if present
         xml_content = response.xml
         if xml_content.startswith('<?xml'):
