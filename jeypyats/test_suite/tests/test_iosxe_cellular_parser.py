@@ -68,6 +68,56 @@ class TestIOSXECellularParser(unittest.TestCase):
         expected = {'slot': None, 'data_profile': None}
         self.assertEqual(result, expected)
 
+    @patch('jeypyats.parsers.iosxe.iosxe_cellular_parsers_nc.logger')
+    def test_get_cellular_sim_config_none_response(self, mock_logger):
+        """Test cellular SIM config retrieval with None response"""
+        self.mock_device.netconf_get.return_value = None
+
+        result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
+
+        self.assertEqual(result, {'slot': None, 'data_profile': None})
+        mock_logger.warning.assert_called_with("NETCONF response is invalid or empty for cellular SIM config on Cellular0/2/0")
+
+    @patch('jeypyats.parsers.iosxe.iosxe_cellular_parsers_nc.logger')
+    def test_get_cellular_sim_config_no_data_xml_attribute(self, mock_logger):
+        """Test cellular SIM config retrieval with response missing data_xml attribute"""
+        mock_response = MagicMock()
+        del mock_response.data_xml  # Remove data_xml attribute
+
+        self.mock_device.netconf_get.return_value = mock_response
+
+        result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
+
+        self.assertEqual(result, {'slot': None, 'data_profile': None})
+        mock_logger.warning.assert_called_with("NETCONF response is invalid or empty for cellular SIM config on Cellular0/2/0")
+
+    @patch('jeypyats.parsers.iosxe.iosxe_cellular_parsers_nc.logger')
+    def test_get_cellular_sim_config_none_data_xml(self, mock_logger):
+        """Test cellular SIM config retrieval with None data_xml content"""
+        mock_response = MagicMock()
+        mock_response.data_xml = None
+
+        self.mock_device.netconf_get.return_value = mock_response
+
+        result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
+
+        self.assertEqual(result, {'slot': None, 'data_profile': None})
+        mock_logger.warning.assert_called_with("NETCONF response is invalid or empty for cellular SIM config on Cellular0/2/0")
+
+    @patch('jeypyats.parsers.iosxe.iosxe_cellular_parsers_nc.logger')
+    def test_get_cellular_sim_config_parse_error(self, mock_logger):
+        """Test cellular SIM config retrieval with XML parse error"""
+        mock_response = MagicMock()
+        mock_response.data_xml = "invalid xml content"
+
+        self.mock_device.netconf_get.return_value = mock_response
+
+        result = IOSXECellularParsersMixin.get_cellular_sim_config(self.mock_device, 'Cellular0/2/0')
+
+        self.assertEqual(result, {'slot': None, 'data_profile': None})
+        mock_logger.error.assert_called_once()
+        self.assertIn("Error parsing cellular SIM config response for Cellular0/2/0:", mock_logger.error.call_args[0][0])
+
 
 if __name__ == '__main__':
     unittest.main()

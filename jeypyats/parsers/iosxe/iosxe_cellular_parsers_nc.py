@@ -6,7 +6,7 @@
 # Created: 04.02.2026 12:00:00
 # Author: Jeremie Rouzet
 #
-# Last Modified: 04.02.2026 10:07:22
+# Last Modified: 05.02.2026 11:22:50
 # Modified By: Jeremie Rouzet
 #
 # Copyright (c) 2026 Netalps.fr
@@ -54,18 +54,33 @@ class IOSXECellularParsersMixin:
         </filter>
         '''
         response = self.netconf_get(filter=cellular_filter)
-        data = response.data_xml
-        root = ET.fromstring(data)
-        sim_config = {'slot': None, 'data_profile': None}
-        sim = root.find('.//sim')
-        if sim is not None:
-            slot_elem = sim.find('slot')
-            data_profile_elem = sim.find('data-profile')
-            slot_text = slot_elem.text if slot_elem is not None else None
-            data_profile_text = data_profile_elem.text if data_profile_elem is not None else None
-            sim_config['slot'] = int(slot_text) if slot_text is not None else None
-            sim_config['data_profile'] = int(data_profile_text) if data_profile_text is not None else None
-        return sim_config
+
+        # Check if response is valid
+        if not response or not hasattr(response, 'data_xml') or response.data_xml is None:
+            logger.warning(f"NETCONF response is invalid or empty for cellular SIM config on {interface}")
+            return {'slot': None, 'data_profile': None}
+
+        # Check for RPC errors
+        if hasattr(response, 'xml') and response.xml and '<rpc-error>' in response.xml:
+            logger.error(f"NETCONF RPC error in cellular response: {response.xml}")
+            return {'slot': None, 'data_profile': None}
+
+        try:
+            data = response.data_xml
+            root = ET.fromstring(data)
+            sim_config = {'slot': None, 'data_profile': None}
+            sim = root.find('.//sim')
+            if sim is not None:
+                slot_elem = sim.find('slot')
+                data_profile_elem = sim.find('data-profile')
+                slot_text = slot_elem.text if slot_elem is not None else None
+                data_profile_text = data_profile_elem.text if data_profile_elem is not None else None
+                sim_config['slot'] = int(slot_text) if slot_text is not None else None
+                sim_config['data_profile'] = int(data_profile_text) if data_profile_text is not None else None
+            return sim_config
+        except Exception as e:
+            logger.error(f"Error parsing cellular SIM config response for {interface}: {e}")
+            return {'slot': None, 'data_profile': None}
 
     @classmethod
     def bind_to_device(cls, device):
